@@ -39,5 +39,14 @@ protected:
 void TestStack()
 {
 	Stack<int, Vector<int>> s;
-	s.
+	s.Push(1);
+	s.Push(2);
+	s.Push(3);
+	s.Push(4);
+	while (!s.Empty())
+	{
+		cout << s.Top() << " ";
+		s.Pop();
+	}
+	cout << endl;
 }
