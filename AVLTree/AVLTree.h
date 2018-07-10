@@ -51,6 +51,12 @@ public:
 		_Destroy(_root);
 	}
 
+	void InOrder()
+	{
+		_InOrder(_root);
+		cout << endl;
+	}
+
 protected:
 	void _Copy(Node* root, Node* new_root)
 	{
@@ -74,6 +80,16 @@ protected:
 		_Destory(root->_left);
 		_Destory(root->_right);
 		delete root;
+	}
+	void _InOrder(Node* root)
+	{
+		if (root == NULL)
+		{
+			return;
+		}
+		_InOrder(root->_left);
+		cout << root->_key << " ";
+		_InOrder(root->_right);
 	}
 private:
 	Node* _root;
