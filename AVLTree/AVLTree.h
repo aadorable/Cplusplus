@@ -54,7 +54,26 @@ public:
 protected:
 	void _Copy(Node* root, Node* new_root)
 	{
-
+		if (root == NULL)
+		{
+			return;
+		}
+		Node* node = new Node(root->_key, root->_value);
+		node->_bf = root->_bf;
+		new_root = node;
+		node->_parent = new_root;
+		_Copy(root->_left, new_root->_left);
+		_Copy(root->_right, new_root->_right);
+	}
+	void _Destory(Node* root)
+	{
+		if (root == NULL)
+		{
+			return;
+		}
+		_Destory(root->_left);
+		_Destory(root->_right);
+		delete root;
 	}
 private:
 	Node* _root;
