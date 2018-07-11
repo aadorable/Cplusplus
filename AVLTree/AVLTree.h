@@ -204,6 +204,39 @@ protected:
 		}
 		parent->_bf = subR->_bf = 0;
 	}
+	void RotateR(Node* parent)
+	{
+		Node* subL = parent->_left;
+		Node* subLR = subL->_right;
+		Node* ppNode = parent->_parent;
+
+		parent->_left = subLR;              //改变指向
+		if (subLR)
+		{
+			subLR->_parent = parent;
+		}
+		subL->_right = parent;
+		parent->_parent = subL;
+
+		if (ppNode == NULL)
+		{
+			_root = subL;
+			_root->_parent = NULL;
+		}
+		else
+		{
+			if (ppNode->_left == parent)
+			{
+				ppNode->_left = subL;
+			}
+			else
+			{
+				ppNode->_right = subL;
+			}
+			subL->_parent = ppNode;
+		}
+		parent->_bf = subL->_bf = 0;         //更新平衡因子
+	}
 	void _InOrder(Node* root)
 	{
 		if (root == NULL)
