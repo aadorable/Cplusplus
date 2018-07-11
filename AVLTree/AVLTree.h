@@ -139,6 +139,12 @@ public:
 		}
 		return true;
 	} 
+	
+	bool IsBalance()
+	{
+		int height = 0;
+		return _IsBalance(_root, height);
+	}
 
 	void InOrder()
 	{
@@ -295,6 +301,30 @@ protected:
 		else
 		{
 			assert(false);
+		}
+	}
+	bool _IsBalance(Node* root, int& height)
+	{
+		if (root == NULL)
+		{
+			height = 0;
+			return true;
+		}
+		int leftHeight = 0;
+		int rightHeight = 0;
+		if (_IsBalance(root->_left, leftHeight) && _IsBalance(root->_right, rightHeight)
+		{
+			if ((rightHeight - leftHeight) != root->_bf)
+			{
+				cout << "平衡因子异常" << root->_key << endl;
+				return false;
+			}
+			height = leftHeight > rightHeight ? leftHeight + 1 : rightHeight + 1;
+			return abs(leftHeight - rightHeight) < 2;
+		}
+		else
+		{
+			return false;
 		}
 	}
 	void _InOrder(Node* root)
