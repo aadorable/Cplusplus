@@ -237,6 +237,36 @@ protected:
 		}
 		parent->_bf = subL->_bf = 0;         //更新平衡因子
 	}
+	void RotateRL(Node* parent)
+	{
+		Node* subR = parent->_right;
+		Node* subRL = subR->_left;
+		int bf = subRL->_bf;
+
+		RotateR(parent->_right);
+		RotateL(parent);
+
+		if (bf == 0)
+		{
+			parent->_bf = subR->_bf = subRL->_bf = 0;
+		}
+		else if (bf == 1)
+		{
+			subR->_bf = 0;
+			subRL->_bf = 0;
+			parent->_bf = -1;
+		}
+		else if (bf == -1)
+		{
+			subR->_bf = 1;
+			subRL->_bf = 0;
+			parent->_bf = 0;
+		}
+		else
+		{
+			assert(false);
+		}
+	}
 	void _InOrder(Node* root)
 	{
 		if (root == NULL)
