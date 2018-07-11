@@ -267,6 +267,36 @@ protected:
 			assert(false);
 		}
 	}
+	void RotateLR(Node* parent)
+	{
+		Node* subL = parent->_left;
+		Node* subLR = subL->_right;
+		int bf = subLR->_bf;
+
+		RotateL(parent->_left);
+		RotateR(parent);
+
+		if (bf == 0)
+		{
+			parent->_bf = subL->_bf = subLR->_bf = 0;
+		}
+		else if (bf == 1)
+		{
+			subL->_bf = -1;
+			subLR->_bf = 0;
+			parent->_bf = 0;
+		}
+		else if (bf == -1)
+		{
+			subL->_bf = 0;
+			subLR->_bf = 0;
+			parent->_bf = 1;
+		}
+		else
+		{
+			assert(false);
+		}
+	}
 	void _InOrder(Node* root)
 	{
 		if (root == NULL)
