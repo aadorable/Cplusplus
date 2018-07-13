@@ -140,6 +140,27 @@ public:
 		return true;
 	} 
 	
+	bool Find(const K& key)
+	{
+		Node* cur = _root;
+		while (cur)
+		{
+			if (cur->_key < key)
+			{
+				cur = cur->_right;
+			}
+			else if (cur->_key > key)
+			{
+				cur = cur->_left;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	bool IsBalance()
 	{
 		int height = 0;
