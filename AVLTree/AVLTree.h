@@ -361,3 +361,16 @@ protected:
 private:
 	Node* _root;
 };
+
+void TestAVLTree()
+{
+	int a[] = { 4, 2, 6, 1, 3, 5, 15, 7, 16, 14 };
+	AVLTree<int, int> t;
+	for (size_t i = 0; i < sizeof(a) / sizeof(a[0]); ++i)
+	{
+		t.Insert(a[i], i);
+		cout << a[i] << ":" << t.IsBalance() << endl;
+	}
+	t.InOrder();
+	cout << t.IsBalance() << endl;
+}
