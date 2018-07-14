@@ -139,6 +139,98 @@ public:
 		}
 		return true;
 	} 
+
+	bool Remove(const K& key)
+	{
+		Node* parent = NULL;
+		Node* cur = _root;
+		Node* del = NULL;       //指向要删除的位置
+		while (cur)
+		{
+			if (cur->_key < key)
+			{
+				cur = cur->_right;
+			}
+			else if (cur->_key > key)
+			{
+				cur = cur->_left;
+			}
+			else
+				break;
+		}
+		if (cur == NULL)      //无此节点，删除失败
+		{
+			return false;
+		}
+		del = cur;
+		//如果要删除的结点有两个孩子，则需要找到右子树的最左结点
+		if (cur->_left != NULL && cur->_right != NULL)
+		{
+			cur = cur->_right;
+			while (cur->_left)
+			{
+				cur = cur->_left;
+			}
+			del->_key = cur->_key;
+			del->_value = cur->_value;
+			del = cur;                //交换之后使del指向要删除的结点
+		}
+		parent = cur->_parent;         //找到要删除结点的父亲
+		if (cur->_left == NULL)        //要删除结点的左孩子为空，或者都为空
+		{
+			if (parent == NULL)       //要删除的是头结点
+			{
+				_root = cur->_right;
+				if (cur->_right)
+				{
+					cur->_right->_parent = NULL;
+				}
+			}
+			else
+			{
+				if (parent->_left == cur)
+				{
+					parent->_left = cur->_right;
+				}
+				else
+				{
+					parent->_right = cur->_right;
+				}
+				if (cur->_right)
+				{
+					cur->_right->_parent = parent;
+				}
+			}
+			cur = del->_right;         //cur更新到要删除节点的右子树
+		}
+		else                          //要删除节点的右孩子为空，左孩子不为空
+		{
+			if (parent == NULL)        //要删除的是头结点
+			{
+				_root = cur->_left;
+				if (cur->_left)
+				{
+					cur->_left->_parent = NULL;
+				}
+			}
+			else
+			{
+				if (parent->_left == cur)
+				{
+					parent->_left = cur->_left;
+				}
+				else
+				{
+					parent->_right = cur->_left;
+				}
+				if (cur->_left)
+				{
+					cur->_left->_parent = parent;
+				}
+			}
+			cur = del->_left;          //cur更新到要删除结点的左子树
+		}
+	}
 	
 	bool Find(const K& key)
 	{
