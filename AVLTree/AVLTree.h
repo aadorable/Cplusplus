@@ -230,6 +230,93 @@ public:
 			}
 			cur = del->_left;          //cur更新到要删除结点的左子树
 		}
+		//因为要删除的结点之后的子树的高度不变，不需修改，需要从parent向上判断是否平衡
+		while (parent)
+		{
+			//调整parent的平衡因子
+			if (parent->_left == cur)           //删除的是parent的左子树
+			{
+				parent->_bf++;
+			}
+			else
+			{
+				parent->_bf--;
+			}
+			if (parent->_bf == 1 || parent->_bf == -1)    //原来平衡，删除一个后高度不变，整棵树已经平衡
+			{
+				break;
+			}
+			//平衡因子原来不为0，删除一个后变为0，需要继续向上寻找
+			if (parent->_bf != 0)
+			{
+				if (cur == NULL)
+				{
+					if (parent->_left == NULL)
+					{
+						cur = parent->_right;
+					}
+					else
+					{
+						cur = parent->_left;
+					}
+				}
+				else
+				{
+					if (parent->_left == cur)          //原来parent比较矮的左子树被删除，让cur指向较高的子树
+					{
+						cur = parent->_right;
+					}
+					else
+					{
+						cur = parent->_left;
+					}
+				}
+				if (cur->_bf == 0)                   //但旋转就可以实现平衡
+				{
+					if (parent->_bf < 0)             //左子树高，进行右单旋
+					{
+						RotateR(parent);
+						parent->_bf = 1;
+						parent->_right->_bf = -1;
+					}
+					else                            //右子树高，进行左单旋
+					{
+						RotateL(parent);
+						parent->_bf = -1;
+						parent->_left->_bf = 1;
+					}
+					break;
+				}
+				//如果parent与较高子树同号，进行单旋
+				int d = parent->_bf - cur->_bf;
+				if (d == 1 || d == -1)
+				{
+					if (d == 1)                    //右子树高，进行左单旋
+					{ 
+						RotateL(parent);
+					}
+					else                          //左子树高，进行右单旋
+					{
+						RotateR(parent);
+					}
+				}
+				else                              //不同号，进行双旋
+				{
+					if (d == 3)
+					{
+						RotateRL(parent);          //parent的平衡因子2，cur的平衡因子为-1，进行右左双旋
+					}
+					else
+					{
+						RotateLR(parent);          //parent的平衡因子-2，cur的平衡因子为1，进行左右双旋
+					}
+				}
+			}
+			cur = parent;
+			parent = parent->_parent;
+		}
+		delete del;
+		return true;
 	}
 	
 	bool Find(const K& key)
