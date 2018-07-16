@@ -554,4 +554,8 @@ void TestAVLTree()
 	}
 	t.InOrder();
 	cout << t.IsBalance() << endl;
+	cout << t.Find(3) << endl;
+	t.Remove(15);
+	t.InOrder();
+	cout << t.IsBalance() << endl;
 }
