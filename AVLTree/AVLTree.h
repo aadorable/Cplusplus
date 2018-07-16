@@ -81,10 +81,12 @@ public:
 		if (parent->_key < key)
 		{
 			parent->_right = cur;
+			cur->_parent = parent;
 		}
 		else
 		{
 			parent->_left = cur;
+			cur->_parent = parent;
 		}
 
 		//调节平衡因子
