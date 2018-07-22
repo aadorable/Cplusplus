@@ -35,7 +35,45 @@ public:
 	RBtree()
 		:_root(NULL)
 	{}
-	
+	bool Insert(const K& key, const V& value)
+	{
+		if (_root == NULL)
+		{
+			_root = new Node(key, value);
+			_root->_color = BLACK;
+			return true;
+		}
+		Node* parent = NULL;
+		Node* cur = _root;
+		while (cur)
+		{
+			if (cur->_key < key)
+			{
+				parent = cur;
+				cur = cur->_right;
+			}
+			else if (cur->_key > key)
+			{
+				parent = cur;
+				cur = cur->_left;
+			}
+			else{
+				return false;
+			}
+		}
+		cur = new Node(key, value);
+		cur->_color = RED;
+		if (parent->_key < key)
+		{
+			parent->_right = cur;
+			cur->_parent = parent;
+		}
+		else
+		{
+			parent->left = cur;
+			cur->_parent = parent;
+		}
+	}
 private:
 	Node* _root;
 };
