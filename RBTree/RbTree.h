@@ -1,5 +1,10 @@
 #pragma once
 
+#include <stdlib.h>
+#include <iostream>
+
+using namespace std;
+
 enum Color
 {
 	RED,
@@ -35,6 +40,23 @@ public:
 	RBtree()
 		:_root(NULL)
 	{}
+	RBTree(const RBTree<K, V>& tree)
+	{
+		_Copy(tree._root, _root);
+	}
+	RBTree<K, V>& operator=(const RBTree<K, V>& tree)
+	{
+		if (this != &tree)
+		{
+			RBTree<K, V> tmp(tree);
+			swap(_root, tmp._root);
+		}
+		return *this;
+	}
+	~RBTree()
+	{
+		_Destory(_root);
+	}
 	bool Insert(const K& key, const V& value)
 	{
 		if (_root == NULL)
@@ -73,6 +95,31 @@ public:
 			parent->left = cur;
 			cur->_parent = parent;
 		}
+	}
+protected:
+	void _Copy(Node* root, Node* new_root)
+	{
+		if (root == NULL)
+		{
+			return;
+		}
+		Node* cur = new Node(root->_key, root->_value);
+		cur->_color = root->_color;
+		
+		new_root = cur;
+		cur->_parent = new_root;
+		_Copy(root->_left, cur->_left);
+		_Copy(root->_right, cur->_right);
+	}
+	void _Destory(Node* root)
+	{
+		if (root == NULL)
+		{
+			return;
+		}
+		_Destory(root->_left);
+		_Destory(root->_right);
+		delete root;
 	}
 private:
 	Node* _root;
