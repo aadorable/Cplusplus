@@ -95,6 +95,63 @@ public:
 			parent->left = cur;
 			cur->_parent = parent;
 		}
+		while (parent && parent->_color == RED)              //父节点为红色，需要进行调整
+		{
+			Node* grand = parent->_parent;                  //祖父结点
+			if (parent == grand->_left)
+			{
+				Node* uncle = grand->_right;                //叔叔节点
+				//1.叔叔节点存在且为红
+				if (uncle && uncle->_color == RED)
+				{
+					parent->_color = uncle->_color = BLACK;
+					grand->_color = RED;
+
+					cur = grand;
+					parent = cur->_parent;                 //继续向上判断
+				}
+				//2.叔叔节点不存在，存在且为黑
+				else
+				{
+					if (cur == parent->_right)
+					{
+						RotateL(parent);                  //先对parent进行左旋
+						swap(cur, parent);
+					}
+					RotateR(grand);                      //对祖父结点右旋
+					parent->_color = BLACK;
+					grand->_color = RED;
+				}
+			}
+			else
+			{
+				Node* uncle = grand->_left;
+				//1.叔叔节点存在且为红
+				if (uncle && uncle->_color == RED)
+				{
+					parent->_color = BLACK;
+					uncle->_color = BLACK;
+					grand->_color = RED;
+
+					cur = grand;
+					parent = cur->_parent;
+				}
+				//2.叔叔节点不存在，存在且为黑
+				else
+				{
+					if (cur == parent->_left)
+					{
+						RotateR(parent);
+						swap(cur, parent);
+					}
+					RotateL(grand);
+					parent->_color = BLACK;
+					grand->_color = RED;
+				}
+			}
+		}
+		_root->_color = BLACK;               //强制将根节点变为黑色
+		return true;
 	}
 protected:
 	void _Copy(Node* root, Node* new_root)
