@@ -178,6 +178,39 @@ protected:
 		_Destory(root->_right);
 		delete root;
 	}
+	void RotateR(Node* parent)
+	{
+		Node* subL = parent->_left;
+		Node* subLR = subL->_right;
+		Node* ppNode = parent->_parent;
+
+		parent->_left = subLR;
+		if (subLR)
+		{
+			subLR->_parent = parent;
+		}
+
+		subL->_right = parent;
+		parent->_parent = subL;
+
+		if (ppNode == NULL)
+		{
+			_root = subL;
+			subL->_parent = NULL;
+		}
+		else
+		{
+			if (ppNode->_left == parent)
+			{
+				ppNode->_left = subL;
+			}
+			else
+			{
+				ppNode->_right = subL;
+			}
+			subL->_parent = ppNode;
+		}
+	}
 private:
 	Node* _root;
 };
