@@ -211,6 +211,38 @@ protected:
 			subL->_parent = ppNode;
 		}
 	}
+	void RotateL(Node* parent)
+	{
+		Node* subR = parent->_right;
+		Node* subRL = subR->_left;
+		Node* ppNode = parent->_parent;
+
+		parent->_right = subRL;
+		if (subRL)
+		{
+			subRL->_parent = parent;
+		}
+		subR->_left = parent;
+		parent->_parent = subR;
+
+		if (ppNode == NULL)
+		{
+			_root = subR;
+			subR->_parent = NULL;
+		}
+		else
+		{
+			if (ppNode->_left == parent)
+			{
+				ppNode->_left = subR;
+			}
+			else
+			{
+				ppNode->_right = subR;
+			}
+			subR->_parent = ppNode;
+		}
+	}
 private:
 	Node* _root;
 };
