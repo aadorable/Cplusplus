@@ -153,6 +153,11 @@ public:
 		_root->_color = BLACK;               //强制将根节点变为黑色
 		return true;
 	}
+	void InOrder()
+	{
+		_InOrder(_root);
+		cout << endl;
+	}
 protected:
 	void _Copy(Node* root, Node* new_root)
 	{
@@ -242,6 +247,16 @@ protected:
 			}
 			subR->_parent = ppNode;
 		}
+	}
+	void _InOrder(Node* root)
+	{
+		if (root == NULL)
+		{
+			return;
+		}
+		_InOrder(root->_left);
+		cout << root->_key << " ";
+		_InOrder(root->_right);
 	}
 private:
 	Node* _root;
