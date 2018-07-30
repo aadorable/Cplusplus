@@ -153,6 +153,26 @@ public:
 		_root->_color = BLACK;               //强制将根节点变为黑色
 		return true;
 	}
+	bool Find(const K& key)
+	{
+		Node* cur = _root;
+		while (cur)
+		{
+			if (cur->_key < key)
+			{
+				cur = cur->_right;
+			}
+			else if (cur->_key > key)
+			{
+				cur = cur->_left;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	void InOrder()
 	{
 		_InOrder(_root);
