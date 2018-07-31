@@ -178,6 +178,29 @@ public:
 		_InOrder(_root);
 		cout << endl;
 	}
+	bool IsBalance()
+	{
+		if (_root == NULL)
+		{
+			return true;
+		}
+		if (_root->_color == RED)
+		{
+			return false;
+		}
+		int count = 0;             //用count统计最左支路的黑节点个数
+		Node* cur = _root;
+		while (cur)
+		{
+			if (cur->_color == BLACK)
+			{
+				++count;
+			}
+			cur = cur->_left;
+		}
+		int num = 0;
+		return _IsBalance(_root, count, num);
+	}
 protected:
 	void _Copy(Node* root, Node* new_root)
 	{
@@ -277,6 +300,24 @@ protected:
 		_InOrder(root->_left);
 		cout << root->_key << " ";
 		_InOrder(root->_right);
+	}
+	bool _IsBalance(Node* root, const int& count, int num)
+	{
+		if (root == NULL)
+		{
+			return num == count;
+		}
+		//存在连续红节点，表示不平衡
+		if (root->_color == RED && root->_parent->_color == RED)
+		{
+			cout << "存在连续红节点：" << root->_key << endl;
+			return false;
+		}
+		if (root->_color == BLACK)
+		{
+			++num;
+		}
+		return _IsBalance(root->_left, count, num) && _IsBalance(root->_right, count, num);
 	}
 private:
 	Node* _root;
