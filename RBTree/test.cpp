@@ -1,10 +1,12 @@
 #include <iostream>
 #include "RBTree.h"
+#include "Set.h"
 
 using namespace std;
 
 int main()
 {
-	TestRBTree();
+	//TestRBTree();
+	TestSet();
 	return 0;
 }
