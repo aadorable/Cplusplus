@@ -265,25 +265,26 @@ public:
 		_root->_color = BLACK;               //强制将根节点变为黑色
 		return make_pair(Iterator(new_node), true);
 	}
-		bool Find(const K& key)
+	Iterator Find(const K& key)
 	{
 		Node* cur = _root;
+		KeyOfValue kov;
 		while (cur)
 		{
-			if (cur->_key < key)
+			if (kov(cur->_data) < key)
 			{
 				cur = cur->_right;
 			}
-			else if (cur->_key > key)
+			else if (kov(cur->_data) > key)
 			{
 				cur = cur->_left;
 			}
 			else
 			{
-				return true;
+				return Iterator(cur);
 			}
 		}
-		return false;
+		return End();
 	}
 	void InOrder()
 	{
