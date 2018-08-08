@@ -37,7 +37,7 @@ struct RBTree
 {
 	typedef RBTreeNode<K, V> Node;
 public:
-	RBtree()
+	RBTree()
 		:_root(NULL)
 	{}
 	RBTree(const RBTree<K, V>& tree)
