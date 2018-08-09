@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <stdlib.h>
 #include <map>
 #include <vector>
 #include <string>
@@ -35,7 +36,7 @@ public:
 		}
 		else
 		{
-			throw invalid_argument("顶点不存在");
+			//throw invalid_argument("顶点不存在");
 		}
 	}
 
@@ -54,7 +55,7 @@ private:
 	vector<V> _vertexs;			//顶点集合
 	map<V, size_t> _vertexsIndexMap;
 	//W** _martexs;				//矩阵(需要动态开辟空间)
-	vector<vector<W>> _martexs;   //矩阵
+	vector<vector<W> > _martexs;   //矩阵
 };
 
 void TestGraphMartix()
@@ -106,7 +107,7 @@ public:
 		}
 		else
 		{
-			throw invalid_argument("顶点不存在");
+			//throw invalid_argument("顶点不存在");
 		}
 	}
 
