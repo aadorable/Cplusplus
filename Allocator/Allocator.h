@@ -51,6 +51,19 @@ public:
 template<int inst>
 HANDLE_FUNC __MallocAllocTemplate<inst>::__malloc_alloc_oom_handler = 0;
 
+void FreeMemory()
+{
+	cout << "释放内存" << endl;
+}
+
+void TestAlloc1()
+{
+	__MallocAllocTemplate<0>::SetMallocHandler(FreeMemory);
+
+	void* p = __MallocAllocTemplate<0>::Allocate(0x7fffffff);
+	__MallocAllocTemplate<0>::Deallocate(p, 40);
+}
+
 ///////////////////////////////////////////////////////////////////////
 
 template <bool threads, int inst>
@@ -96,14 +109,18 @@ public:
 			if (leftbytes > 0)
 			{
 				size_t index = FREELIST_INDEX(leftbytes);
-				((Obj*)_startfree)->_freelistlink = 
+				((Obj*)_startfree)->_freelistlink = _freelist[index];
+				_freelist[index] = (Obj*)_startfree;
 			}
 			//申请
 			size_t bytesToGet = totalbytes * 2 + ROUND_UP(_heapsize >> 4);
 			_startfree = (char*)malloc(bytesToGet);
+
 			if (_startfree == NULL)
 			{
-				for (int i = size; i < __MAX_BYTES; i += __ALIGN)
+				//到更大的自由链表中找
+				size_t index = FREELIST_INDEX(size);
+				for (; index < __NFREELISTS; ++index)
 				{
 					if (_freelist[index])
 					{
@@ -129,6 +146,7 @@ public:
 			return chunk;
 
 		size_t index = FREELIST_INDEX(bytes);
+
 		Obj* cur = (Obj*)(chunk + bytes);
 		_freelist[index] = cur;
 		for (size_t i = 0; i < nobjs - 2; ++i)
@@ -174,7 +192,7 @@ public:
 		{
 			size_t index = FREELIST_INDEX(n);
 			((Obj*)p)->_freelistlink = _freelist[index];
-
+			_freelist[index] = (Obj*)p;
 		}
 	}
 
@@ -198,13 +216,28 @@ private:
 	static size_t _heapsize;
 };
 
-template <bool threads, int inst>
+template<bool threads, int inst>
 typename __DefaultAllocTemplate<threads, inst>::Obj*;
-typename __DefaultAllocTemplate
-// 自由链表
-static Obj* _freelist[__NFREELISTS];
+
+template<bool threads, int inst>
+__DefaultAllocTemplate<threads, inst>::_freelist[__NFREELISTS] = { 0 };
 
 // 内存池
-static char* _startfree;
-static char* _endfree;
-static size_t _heapsize;
+template<bool threads, int inst>
+char* __DefaultAllocTemplate<threads, inst>::_startfree = NULL;
+
+template<bool threads, int inst>
+char* __DefaultAllocTemplate<threads, inst>::_endfree = NULL;
+
+template<bool threads, int inst>
+size_t __DefaultAllocTemplate<threads, inst>::_heapsize = 0;
+
+void TestAlloc2()
+{
+	for (size_t i = 0; i < 20; ++i)
+	{
+		__DefaultAllocTemplate<false, 0>::Allocate(6);
+	}
+
+	__DefaultAllocTemplate<false, 0>::Allocate(6);
+}
