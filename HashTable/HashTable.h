@@ -86,6 +86,27 @@ public:
 		return Iterator(NULL, this);
 	}
 
+	void CheckCapacity()
+	{
+		if (_size == _tables.size())       // load factor == 1
+		{
+			size_t new_size = GetNextPrime(_tables.size());
+
+			HashTable<K, V, KeyOfValue> new_table;
+			new_table._tables.resize(new_size, NULL);
+			for (size_t i = 0; i < _tables.size(); ++i)
+			{
+				Node* cur = _tables[i];
+				while (cur)
+				{
+					new_table.Insert(cur->_data);
+					cur = cur->_next;
+				}
+			}
+			_tables.swap(new_table._tables);
+		}
+	}
+
 	size_t HashFunc(const K& key, size_t size)
 	{
 		_HashFunc hf;
