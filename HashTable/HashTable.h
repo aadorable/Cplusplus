@@ -108,24 +108,52 @@ public:
 		return _PrimeList[_PrimeSize - 1];
 	}
 
+		//void CheckCapacity()
+	//{
+	//	if (_size == _tables.size())       // load factor == 1
+	//	{
+	//		size_t new_size = GetNextPrime(_tables.size());
+
+	//		HashTable<K, V, KeyOfValue> new_table;
+	//		new_table._tables.resize(new_size, NULL);
+	//		for (size_t i = 0; i < _tables.size(); ++i)
+	//		{
+	//			Node* cur = _tables[i];
+	//			while (cur)
+	//			{
+	//				new_table.Insert(cur->_data);
+	//				cur = cur->_next;
+	//			}
+	//		}
+	//		_tables.swap(new_table._tables);
+	//	}
+	//}
+
 	void CheckCapacity()
 	{
-		if (_size == _tables.size())       // load factor == 1
+		if (_size == _tables.size())     // load factor == 1
 		{
 			size_t new_size = GetNextPrime(_tables.size());
 
-			HashTable<K, V, KeyOfValue> new_table;
-			new_table._tables.resize(new_size, NULL);
+			vector<Node*> new_table;
+			new_table.resize(new_size, NULL);
+			KeyOfValue kov;
 			for (size_t i = 0; i < _tables.size(); ++i)
 			{
 				Node* cur = _tables[i];
 				while (cur)
 				{
-					new_table.Insert(cur->_data);
-					cur = cur->_next;
+					Node* next = cur->_next;
+					// cur 取下来，插入到新表中（头插）
+					size_t index = HashFunc(kov(cur->_data), _tables.size());
+					cur->_next = new_table[index];
+					new_table[index] = cur;
+
+					cur = next;
 				}
+				_tables[i] = NULL;
 			}
-			_tables.swap(new_table._tables);
+			_tables.swap(new_table);
 		}
 	}
 
