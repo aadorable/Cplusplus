@@ -52,6 +52,65 @@ template<class K, class V, class KeyOfValue, class _HashFunc>
 class HashTable;
 
 template<class K, class V, class KeyOfValue, class _HashFunc>
+class _HashTableIterator
+{
+	typedef HashNode<V> Node;
+	Node* _node;
+	HashTable<K, V, KeyOfValue, _HashFunc>* _ht;
+	typedef _HashTableIterator<K, V, KeyOfValue, _HashFunc> Self;
+
+	_HashTableIterator(Node* node, HashTable<K, V, KeyOfValue, _HashFunc>* ht)
+		:_node(node)
+		, _ht(ht)
+	{}
+
+	V& operator*()
+	{
+		return _node->_data;
+	}
+
+	V* operator->()
+	{
+		return &(operator*());
+	}
+
+	Self& operator++()
+	{
+		if (_node->_next)
+		{
+			_node = _node->_next;
+		}
+		else
+		{
+			KeyOfValue kov;
+			size_t index = _ht->HashFunc(kov(_node->_data), _ht->_tables.size()) + 1;
+			while (index < _ht->_tables.size())
+			{
+				if (_ht->_tables[index])
+				{
+					_node = _ht->_tables[index];
+					break;
+				}
+				else
+				{
+					++index;
+				}
+			}
+			if (index == _ht->_tables.size())
+			{
+				_node = NULL;
+			}
+		}
+		return *this;
+	}
+
+	bool operator!=(const Self& s) const
+	{
+		return _node != s._node;
+	}
+};
+
+template<class K, class V, class KeyOfValue, class _HashFunc>
 class HashTable
 {
 	typedef HashNode<V> Node;
