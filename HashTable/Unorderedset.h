@@ -32,3 +32,28 @@ public:
 protected:
 	HashTable<K, K, SetKeyOfValue, HashFunc> _ht;
 };
+
+void TestUnorderedset()
+{
+	Unorderedset<int> us;
+	us.Insert(2);
+	us.Insert(100);
+	us.Insert(20);
+	us.Insert(24);
+	us.Insert(10);
+	us.Insert(34);
+
+	for (size_t i = 0; i < 53; ++i)
+	{
+		us.Insert(i);
+	}
+
+	Unorderedset<int>::Iterator it = us.Begin();
+	while (it != us.End())
+	{
+		cout << *it << endl;
+		++it;
+	}
+
+	cout << endl;
+}
