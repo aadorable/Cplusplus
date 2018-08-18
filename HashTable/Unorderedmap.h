@@ -19,6 +19,22 @@ class Unorderedmap
 	{
 		return _ht.Insert(kv);
 	}
+
+	Iterator Begin()
+	{
+		return _ht.Begin();
+	}
+
+	Iterator End()
+	{
+		return _ht.End();
+	}
+
+	V& operator[](const K& key)
+	{
+		pair<Iterator, bool> ret = _ht.Insert(make_pair(key, V()));
+		return ret.first->second;
+	}
 protected:
 	HashTable<K, pair<K, V>, MapKeyOfValue, HashFunc> _ht;
 };
