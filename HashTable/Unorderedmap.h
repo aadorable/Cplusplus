@@ -14,4 +14,11 @@ class Unorderedmap
 	};
 
 	typedef typename HashTable<K, pair<K, V>, MapKeyOfValue, HashFunc>::Iterator Iterator;
+
+	pair<Iterator, bool> Insert(const pair<K, V>& kv)
+	{
+		return _ht.Insert(kv);
+	}
+protected:
+	HashTable<K, pair<K, V>, MapKeyOfValue, HashFunc> _ht;
 };
