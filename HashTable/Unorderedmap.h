@@ -13,6 +13,7 @@ class Unorderedmap
 		}
 	};
 
+public:
 	typedef typename HashTable<K, pair<K, V>, MapKeyOfValue, HashFunc>::Iterator Iterator;
 
 	pair<Iterator, bool> Insert(const pair<K, V>& kv)
@@ -58,3 +59,21 @@ struct HashFuncstring
 		return BKDR(s.c_str());
 	}
 };
+
+void TestUnorderedmap()
+{
+	Unorderedmap<string, string> dict;
+	dict.Insert(make_pair("string", "字符串"));
+	dict.Insert(make_pair("map", "映射"));
+	dict.Insert(make_pair("insert", "插入"));
+	dict["left"] = "左边";
+	dict["left"] = "剩余";
+
+	Unorderedmap<string, string>::Iterator it = dict.Begin();
+	while (it != dict.End())
+	{
+		cout << it->first << ":" << it->second << endl;
+		++it;
+	}
+	cout << endl;
+}
