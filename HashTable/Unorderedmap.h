@@ -38,3 +38,23 @@ class Unorderedmap
 protected:
 	HashTable<K, pair<K, V>, MapKeyOfValue, HashFunc> _ht;
 };
+
+struct HashFuncstring
+{
+	size_t BKDR(const char* str)
+	{
+		size_t hash = 0;
+		while (*str)
+		{
+			hash = hash * 131 + *str;
+			++str;
+		}
+
+		return hash;
+	}
+
+	size_t operator()(const string& s)
+	{
+		return BKDR(s.c_str());
+	}
+};
