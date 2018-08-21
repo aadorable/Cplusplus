@@ -59,6 +59,7 @@ class _HashTableIterator
 	HashTable<K, V, KeyOfValue, _HashFunc>* _ht;
 	typedef _HashTableIterator<K, V, KeyOfValue, _HashFunc> Self;
 
+public:
 	_HashTableIterator(Node* node, HashTable<K, V, KeyOfValue, _HashFunc>* ht)
 		:_node(node)
 		, _ht(ht)
@@ -116,7 +117,8 @@ class HashTable
 	typedef HashNode<V> Node;
 
 	template<class K, class V, class KeyOfValue, class _HashFunc>
-	friend struct _HashTableIterator;
+	friend class _HashTableIterator;
+
 public:
 	typedef _HashTableIterator<K, V, KeyOfValue, _HashFunc> Iterator;
 
