@@ -47,7 +47,7 @@ int Abs(int x){
 #include <gtest/gtest.h>
 
 // C语言中的 assert 断言失败，结果是什么样的？
-// 致命断言：如果断言失败，当前的TEST宏中剩余的代码就不执行了
+// 致命断言：如果断言失败，当前的TEST宏中剩余的代码就不执行
 // 非致命断言：如果断言失败，TEST宏剩余的代码仍然继续执行
 
 TEST(TestAbs, TestAbs){
