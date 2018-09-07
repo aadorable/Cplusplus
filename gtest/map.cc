@@ -26,3 +26,9 @@ TEST(TestMap, find){
     auto it = test_map.find(3);
     ASSERT_NE(it, test_map.end());
 }
+
+TEST(TestMap, operator_bracket){
+    std::map<int, int> test_map;
+    MakeMap(test_map);
+    ASSERT_EQ(test_map[2], 1);
+}
