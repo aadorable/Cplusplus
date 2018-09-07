@@ -19,3 +19,10 @@ TEST(TestMap, size){
     MakeMap(test_map);
     ASSERT_EQ(test_map.size(), 5);
 }
+
+TEST(TestMap, find){
+    std::map<int, int> test_map;
+    MakeMap(test_map);
+    auto it = test_map.find(3);
+    ASSERT_NE(it, test_map.end());
+}
