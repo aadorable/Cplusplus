@@ -6,13 +6,26 @@
 //事件机制充分的体现出“框架”含义
 //gtest 给我们提供了一组时机
 /////////////////////////////////////////////////////////////////
-void MakeMap(std::map<int, int>& test_map){
-    test_map.insert(std::make_pair(1, 1));
-    test_map.insert(std::make_pair(2, 1));
-    test_map.insert(std::make_pair(3, 1));
-    test_map.insert(std::make_pair(4, 1));
-    test_map.insert(std::make_pair(5, 1));
-}
+class TestMap : public testing::Test{
+public:
+    void SetUp(){
+        //每个TEST初始化所调用的函数
+        std::cout << "SetUp" << std::endl;
+        test_map.insert(std::make_pair(1, 1));
+        test_map.insert(std::make_pair(2, 1));
+        test_map.insert(std::make_pair(3, 1));
+        test_map.insert(std::make_pair(4, 1));
+        test_map.insert(std::make_pair(5, 1));
+    }
+
+    void TearDown(){
+        //每个TEST释放时所调用的函数
+        std::cout << "TearDown" << std::endl;
+        test_map.clear();
+    }
+
+    std::map<int, int> test_map;
+};
 
 TEST(TestMap, size){
     std::map<int, int> test_map;
