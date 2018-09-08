@@ -27,21 +27,15 @@ public:
     std::map<int, int> test_map;
 };
 
-TEST(TestMap, size){
-    std::map<int, int> test_map;
-    MakeMap(test_map);
+TEST_F(TestMap, size){
     ASSERT_EQ(test_map.size(), 5);
 }
 
-TEST(TestMap, find){
-    std::map<int, int> test_map;
-    MakeMap(test_map);
+TEST_F(TestMap, find){
     auto it = test_map.find(3);
     ASSERT_NE(it, test_map.end());
 }
 
-TEST(TestMap, operator_bracket){
-    std::map<int, int> test_map;
-    MakeMap(test_map);
+TEST_F(TestMap, operator_bracket){
     ASSERT_EQ(test_map[2], 1);
 }
