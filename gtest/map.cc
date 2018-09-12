@@ -38,14 +38,20 @@ public:
 };
 
 TEST_F(TestMap, size){
+    std::cout << "Test size beg" << std::endl;
     ASSERT_EQ(test_map.size(), 5);
+    std::cout << "Test size end" << std::endl;
 }
 
 TEST_F(TestMap, find){
+    std::cout << "Test find beg" << std::endl;
     auto it = test_map.find(3);
     ASSERT_NE(it, test_map.end());
+    std::cout << "Test find beg" << std::endl;
 }
 
 TEST_F(TestMap, operator_bracket){
+    std::cout << "Test operator_bracket beg" << std::endl;
     ASSERT_EQ(test_map[2], 1);
+    std::cout << "Test operator_bracket beg" << std::endl;
 }
