@@ -34,6 +34,14 @@ public:
         test_map.clear();
     }
 
+    static void SetUpTestCase(){
+        std::cout << "SetUpTestCase" << std::endl;
+    }
+
+    static void TearDownTestCase(){
+        std::cout << "TearDownTestCase" << std::endl;
+    }
+
     std::map<int, int> test_map;
 };
 
