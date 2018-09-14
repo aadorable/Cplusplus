@@ -1,7 +1,7 @@
-gtest: ./gtest.cc
+map: ./map.cc
 	g++ $^ -o $@ -I ~/third_part/include -L ~/third_part/lib \
-		-lgtest -Igtest_main -lpthread
+		-lmap -Imap_main -lpthread
 
 .PHONY:clean
 clean:
-	rm gtest
+	rm map
