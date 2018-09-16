@@ -63,3 +63,7 @@ TEST_F(TestMap, operator_bracket){
     ASSERT_EQ(test_map[2], 1);
     std::cout << "Test operator_bracket beg" << std::endl;
 }
+
+int main(){
+    return 0;
+}
